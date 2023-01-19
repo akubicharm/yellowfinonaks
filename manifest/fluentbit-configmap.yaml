@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentbit-config
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        flush     1
+        log_level debug
+
+    [INPUT]
+        name      tail
+        path      /opt/yellowfin/appserver/logs/yellowfin.log*
+        multiline.parser java
+        tag       ${HOSTNAME}-yellowfin.log
+
+    [INPUT]
+        name      tail
+        path      /opt/yellowfin/appserver/logs/catalina*.log
+        multiline.parser java
+        tag       ${HOSTNAME}-catalina.log
+
+    [OUTPUT]
+        name                  azure_blob
+        match                 *
+        account_name          akubicharmyfstorage
+        shared_key            w9O0uKMCYqoAb4KGf01hWhvlzwAlJNmwDZr0lkNpnQDYWGsKLW/r+g9C7qufwKINFu9yCCuP2D3r+AStYRNlbQ==
+        path                  yellowfinlog
+        container_name        yellowfin
+        auto_create_container on
+        tls                   on

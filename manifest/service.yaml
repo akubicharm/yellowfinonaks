@@ -1,0 +1,14 @@
+---
+### Yellowfin Development Instance - Service ###
+apiVersion: v1
+kind: Service
+metadata:
+  name: yellowfin-multi-instance-dev-clusterip
+spec:
+  ports:
+  - name: "web"
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: yellowfin-multi-instance-dev
+  type: ClusterIP
