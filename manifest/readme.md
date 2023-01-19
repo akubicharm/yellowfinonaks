@@ -15,13 +15,15 @@ az aks get-credentials --admin --name $AKS_NAME --resource-group $RG_NAME
 
 ### namespace の作成
 
-namespace を作成し、kubectl コマンド実行時に毎回 `-n` オプションでnamespaceを指定しなくても済むようにコンテキストを設定。
+namespace を作成し、kubectl コマンド実行時に毎回 `-n` or `--namespace` オプションでnamespaceを指定しなくても済むようにコンテキストを設定。
 
 ```
 export YF_NS=yf
 kubectl create ns $YF_NS
 kubectl config set-context --current --namespace $YF_NS
 ```
+
+
 
 ### Podのデプロイ
 
@@ -68,3 +70,37 @@ AKSをデプロイしたリソースグループにNetwork Security Groupがで�
 ※Azure LBは、Source IPにClientIPを指定したままアクセスするので
 
 aksのサービスのExternal IPを指定してブラウザからアクセス
+
+
+## Podの色々な操作
+
+### Podのログ(stdout, stderr)の参照
+
+Pod名の確認
+```
+kubectl get pods
+
+上記コマンドの出力結果
+NAME                                            READY   STATUS    RESTARTS   AGE
+yellowfin-multi-instance-dev-7d64c8b74c-vcv2p   1/1     Running   0          122m
+```
+
+stdout, stderrの参照
+```
+kubectl logs -f yellowfin-multi-instance-dev-7d64c8b74c-vcv2p
+```
+
+### Podにアクセス
+
+```
+ kubectl exec -it yellowfin-multi-instance-dev-7d64c8b74c-vcv2p  -- /bin/bash
+```
+
+
+### Podとローカルでのファイルのコピー
+
+```
+cd [ファイルを保存するディレクトリ]
+kubectl cp yf:yellowfin-multi-instance-dev-7d64c8b74c-vcv2p:/opt/yellowfin/appserver/logs .
+```
+※Dockerイメージ作成時に指定したWORKDIR以外を指定した場合には、「tar: Removing leading `//' from member names」というメッセージが出る
