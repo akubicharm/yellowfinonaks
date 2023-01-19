@@ -57,3 +57,12 @@ az aks get-credentials --admin --name $AKS_NAME --resource-group $RG_NAME
 ```
 kubectl get nodes
 ```
+
+
+### Azure管理のリソースグループの確認
+
+AKSをデプロイすると、`MC_` で始まるリソースグループが作成されVMなどがデプロイされるので、そのリソースグループ名を確認する。 
+
+```
+az aks show --resource-group $RG_NAME --name $AKS_NAME --query nodeResourceGroup
+```
