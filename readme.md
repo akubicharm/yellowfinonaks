@@ -43,8 +43,17 @@ az aks create \
 --vnet-subnet-id  $AKS_SUBNET_ID \
 --location $LOCATION \
 --node-count 1 \
---node-vm-size "Standard_DS2_v2"
+--node-vm-size "Standard_DS2_v2" \
+--no-ssh-key
 ```
+
+--generate-ssh-key オプションがないというエラーが出た場合には、
+. `--no-ssh-key` オプションを指定する
+. `--generate-ssh-key` オプションを指定してSSH Keyを生成する
+. `ssh-key-value [public key file]` オプションを指定する
+
+各種オプションは[Azure CLI リファレンス (az aks create)](https://learn.microsoft.com/ja-jp/cli/azure/aks?view=azure-cli-latest#az-aks-create)参照。
+
 
 ### AKSクラスタの確認
 AKSクレデンシャルの取得
@@ -65,4 +74,20 @@ AKSをデプロイすると、`MC_` で始まるリソースグループが作�
 
 ```
 az aks show --resource-group $RG_NAME --name $AKS_NAME --query nodeResourceGroup
+```
+
+### Internal Loadbalanerの利用
+
+AKS上のアプリケーションへのアクセスをVNET内に限定するために、Internal Loadbalancerを利用するためのロールアサインをする。
+
+```
+export SUBS_ID=$(az account show --query id)
+export SPID=$(az aks show -g $RG_NAME -n $AKS_NAME --query identity.principalId -o tsv)
+export NODE_RG=$(az aks show -g $RG_NAME -n $AKS_NAME --query nodeResourceGroup -o tsv)
+export 
+
+az role assignment create \
+--assignee $SPID \
+--role "Network Contributor" \
+--scope "/subscriptions/$SUBS_ID/resourceGroups/$NODE_RG"
 ```
