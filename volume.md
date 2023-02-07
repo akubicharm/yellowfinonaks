@@ -20,7 +20,7 @@
 |AzureFile CSI|○|○|○|
 |AzureDisk CSI|○|-|-|
 |hostPath|○|-|-|
-|Azure Blog CSI
+|Azure Blog CSI (NFS)|○|○|○|
 
 
 ## 環境変数の準備
@@ -34,6 +34,21 @@ export YF_NS=yellowfin
 ```
 
 ## 永続ボリューム
+
+Persistent Volume Claim を使って永続ボリュームを要求し、Podから利用できるようにする。
+
+![Persistent Volume](https://learn.microsoft.com/ja-jp/azure/aks/media/concepts-storage/aks-storage-options.png)
+https://learn.microsoft.com/ja-jp/azure/aks/concepts-storage
+        
+
+### PVCの作成
+
+[サンプル manifest/azurefile-pvc.yaml](./manifest/azurefile-pvc.yaml)を利用して、Persistent Volume Claim を作成
+
+### アプリケーションのデプロイ
+
+[サンプル manifest/deployment_pvc.yaml](./manifest/deployment-pvc.yaml)を利用して、アプリケーションをデプロイ
+
 
 
 
