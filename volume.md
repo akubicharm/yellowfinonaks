@@ -33,13 +33,14 @@ export AKS_NAME=myaks
 export YF_NS=yellowfin
 ```
 
-## 永続ボリューム
+## 永続ボリューム(Azure管理リソースグループのストレージクラスを利用する場合)
 
 Persistent Volume Claim を使って永続ボリュームを要求し、Podから利用できるようにする。
 
 ![Persistent Volume](https://learn.microsoft.com/ja-jp/azure/aks/media/concepts-storage/aks-storage-options.png)
 https://learn.microsoft.com/ja-jp/azure/aks/concepts-storage
-        
+
+AKSデプロイ時に作成されたkubernetesのストレージクラスを利用して、Azure管理リソースグループに生成されるストレージアカウントを永続ボリュームとして利用する場合は、PVC作成、アプリケーションのデプロイを行う。    
 
 ### PVCの作成
 
@@ -47,8 +48,36 @@ https://learn.microsoft.com/ja-jp/azure/aks/concepts-storage
 
 ### アプリケーションのデプロイ
 
-[サンプル manifest/deployment_pvc.yaml](./manifest/deployment-pvc.yaml)を利用して、アプリケーションをデプロイ
+[サンプル manifest/deployment-pvc.yaml](./manifest/deployment-pvc.yaml)を利用して、アプリケーションをデプロイ
 
+
+## 永続ボリューム（自作のストレージクラスを利用する場合）
+
+### ストレージクラスの作成
+
+[サンプル manifest/azurefile-storageclass.yaml](./manifest/azurefile-storageclass.yaml)を利用して、ストレージクラスを作成
+
+### PVCの作成
+[サンプル manifest/deployment-pvc.yaml](./manifest/deployment-pvc.yaml)を編集し、Persistent Volume Claimを作成。
+storageClassNameを前の手順で作成したストレージクラス名に、storageの容量は必要な値に変更し、AKSに適用
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+  namespace: yellowfin-prod
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: [ここを前の手順で作成したストレージクラスの名前に変更]
+  resources:
+    requests:
+      storage: 5Gi <--- 容量は適宜変更
+```
+
+### アプリケーションのデプロイ
+[サンプル manifest/deployment-pvc.yaml](./manifest/deployment-pvc.yaml)を利用して、アプリケーションをデプロイ。
 
 
 

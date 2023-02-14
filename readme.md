@@ -78,13 +78,13 @@ az aks show --resource-group $RG_NAME --name $AKS_NAME --query nodeResourceGroup
 
 ### Internal Loadbalanerの利用
 
+これ、要らなかったみたいだ。。。
 AKS上のアプリケーションへのアクセスをVNET内に限定するために、Internal Loadbalancerを利用するためのロールアサインをする。
 
 ```
 export SUBS_ID=$(az account show --query id)
 export SPID=$(az aks show -g $RG_NAME -n $AKS_NAME --query identity.principalId -o tsv)
 export NODE_RG=$(az aks show -g $RG_NAME -n $AKS_NAME --query nodeResourceGroup -o tsv)
-export 
 
 az role assignment create \
 --assignee $SPID \
