@@ -240,6 +240,14 @@ AKS上のアプリケーションに直接外部からアクセスするので�
 kubectl apply -f service_internalLB.yaml
 ```
 
+IPアドレスを確認。EXTERNAL-IPに記載されているのが、Application Gatewayのバックエンドとして指定するIPアドレス
+```
+kubectl get svc -n yellowfin-prod
+NAME                           TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+yellowfin-multi-instance-dev   LoadBalancer   10.0.196.32   10.1.1.6      80:30322/TCP   3m54s
+```
+
+
 ***Azureポータルで実行する場合***
 1. AzureポータルでAKSの管理画面を開く
 2. 左PaneのKubernetesリソースセクションで「サービスとイングレス」をクリック
