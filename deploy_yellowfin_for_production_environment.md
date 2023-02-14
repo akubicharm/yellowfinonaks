@@ -255,3 +255,7 @@ yellowfin-multi-instance-dev   LoadBalancer   10.0.196.32   10.1.1.6      80:303
 4. service_internalLB.yamlの貼り付けて作成
 
 
+Internal Load BalancerタイプのServiceをデプロイすると、Azure管理のリソースグループ（デフォルトではMC_で始まる）にkubernetes-internalというロードバランサーが作成され、そこにFrontendのIPアドレスとして、Serviceに割り当てられたVNETのIPアドレスが定義される。
+
+
+
