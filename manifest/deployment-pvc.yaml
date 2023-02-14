@@ -21,17 +21,19 @@ spec:
           - name: APP_MEMORY
             value: "4096"
           - name: JDBC_CLASS_NAME
-            value: "org.postgresql.Driver"
-          - name: JDBC_CONN_PASS
-            value: "@dmin12345678"
-          - name: JDBC_CONN_ENCRYPTED
-            value: "false"
-          - name: JDBC_CONN_URL
-            value: "jdbc:postgresql://yellowfinpgakubicharm.postgres.database.azure.com:5432/yellowfin?sslmode=require"
-          - name: JDBC_CONN_USER
-            value: "myadmin"
+            value: "org.postgresql.Driver"            
+          envFrom:
+          - secretRef:
+              name : jdbc-secret
           name: yellowfin-multi-instance-prod
-          image: yellowfinbi/yellowfin-app-only:latest
+          image: akubicharmyf.azurecr.io/myyellowfin:latest
           ports:
             - name: web
               containerPort: 8080
+          volumeMounts:
+          - mountPath: "/opt/yellowfin/appserver/logs"
+            name: volume
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: mypvc              

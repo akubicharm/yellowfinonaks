@@ -6,7 +6,7 @@ metadata:
   labels:
     app: yellowfin-multi-instance-dev
   name: yellowfin-multi-instance-dev
-   
+  namespace: yellowfin-prod   
 spec:
   replicas: 1
   selector:

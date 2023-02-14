@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mypvc
+  namespace: yellowfin-prod
 spec:
   accessModes:
     - ReadWriteMany
