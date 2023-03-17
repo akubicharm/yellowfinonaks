@@ -19,8 +19,8 @@ docker cp yellowfin:/opt/yellowfin/appserver/webapps/ROOT/WEB-INF/log4j2.xml log
 
 `<Properties>`　セクションにログ出力ディレクトリを指定するためのプロパティを設定し、ログのAppenderのログ出力ディレクトリに指定する。
 ```
-<Properties>n
-  <Property name="hostname">${env.HOSTNAME}</Property>
+<Properties>
+  <Property name="hostname">${env:HOSTNAME}</Property>
 </Properties>
 
 ＜＜＜中略＞＞＞
