@@ -53,6 +53,20 @@ AKSデプロイ時に作成されたkubernetesのストレージクラスを利�
 
 ## 永続ボリューム（自作のストレージクラスを利用する場合）
 
+Storage　AccountをAzure管理のリソースグループに作って利用する場合は、同一リソースグループ内でのアクセスなので権限の付与は入りませんが、異なるリソースグループの場合には、IAMでの権限の不要が必要です。
+
+## 権限の付与
+
+#### 1. ストレージアカウントを作成
+#### 2. ストレージアカウントの管理画面の左Paneで「アクセス制御 (IAM)」をクリック
+#### 3. 右Pane上部の「+追加」をクリックしプロダウンメニューで「ロール割り当ての追加」を選択
+#### 4. 一覧から「ストレージアカウント共同作成者」を選択
+#### 5.　アクセス割り当て先「マネージドID」をチェックし、マネージドIDの選択ダイアログで該当するkubernetesサービスを選択
+![Managed IDの割り当て](images/volume_managedid.png)
+
+
+[Azureドキュメント Azureポータルを使用してAzureロールを割り当てる](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal?tabs=current)
+
 ### ストレージクラスの作成
 
 [サンプル manifest/azurefile-storageclass.yaml](./manifest/azurefile-storageclass.yaml)を利用して、ストレージクラスを作成
