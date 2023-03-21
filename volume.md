@@ -65,7 +65,7 @@ Storage　AccountをAzure管理のリソースグループに作って利用す�
 ![Managed IDの割り当て](images/volume_managedid.png)
 
 
-[Azureドキュメント Azureポータルを使用してAzureロールを割り当てる](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal?tabs=current)
+[参考：Azureドキュメント Azureポータルを使用してAzureロールを割り当てる](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal?tabs=current)
 
 ### ストレージクラスの作成
 
